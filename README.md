@@ -83,9 +83,8 @@ AngulareCommerceDs_19/
 │   │   │   └───register.component.ts  
 │   ├───app.component.css  
 │   ├───app.component.html  
-│   ├───app.component.ts    
-│   ├───app.config.ts     
-│   └───app-routing.module.ts  
+│   ├───app.component.ts       
+│   └───app.routes.ts    
 ├───environments/  
 │   ├───environment.development.ts  
 │   └───environment.ts  
