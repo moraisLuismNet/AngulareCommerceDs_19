@@ -73,14 +73,14 @@ AngulareCommerceDs_19/
 │   │   ├───register/  
 │   │   │   ├───register.component.css  
 │   │   │   ├───register.component.html  
-│   │   │   └───register.component.ts  
-│   ├───app.component.css  
+│   │   │   └───register.component.ts   
 │   ├───app.component.html  
 │   ├───app.component.ts       
 │   └───app.routes.ts    
 ├───environments/  
 │   ├───environment.development.ts  
-│   └───environment.ts  
+│   └───environment.ts   
+├───main.ts     
 ├───angular.json  
 └───package.json  
 
