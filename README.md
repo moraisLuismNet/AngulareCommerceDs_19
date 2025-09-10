@@ -20,24 +20,19 @@ AngulareCommerceDs_19/
 │   │   │   ├───carts.component.css  
 │   │   │   ├───carts.component.html  
 │   │   │   └───carts.component.ts  
-│   │   ├───genres/  
-│   │   │   ├───genres.component.css  
+│   │   ├───genres/   
 │   │   │   ├───genres.component.html    
 │   │   │   └───genres.component.ts  
 │   │   ├───groups/  
-│   │   │   ├───groups.component.css  
 │   │   │   ├───groups.component.html  
 │   │   │   └───groups.component.ts  
-│   │   ├───listgroups/  
-│   │   │   ├───listgroups.component.css      
+│   │   ├───listgroups/      
 │   │   │   ├───listgroups.component.html     
 │   │   │   └───listgroups.component.ts  
-│   │   ├───listrecords/  
-│   │   │   ├───listrecords.component.css   
+│   │   ├───listrecords/    
 │   │   │   ├───listrecords.component.html  
 │   │   │   └───listrecords.component.ts  
 │   │   ├───orders/  
-│   │   │   ├───orders.component.css  
 │   │   │   ├───orders.component.html  
 │   │   │   └───orders.component.ts  
 │   │   ├───records/  
@@ -54,7 +49,6 @@ AngulareCommerceDs_19/
 │   │   │   ├───stock.service.ts  
 │   │   │   └───users.service.ts  
 │   │   ├───users/  
-│   │   │   ├───users.component.css  
 │   │   │   ├───users.component.html  
 │   │   │   └───users.component.ts  
 │   │   ├───ecommerce.component.html  
@@ -74,7 +68,6 @@ AngulareCommerceDs_19/
 │   │   │   ├───login.component.html  
 │   │   │   └───login.component.ts  
 │   │   ├───navbar/  
-│   │   │   ├───navbar.component.css  
 │   │   │   ├───navbar.component.html  
 │   │   │   └───navbar.component.ts  
 │   │   ├───register/  

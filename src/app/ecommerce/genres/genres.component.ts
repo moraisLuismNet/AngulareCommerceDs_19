@@ -32,7 +32,6 @@ import { GenresService } from '../services/genres.service';
         MessageModule
     ],
     templateUrl: './genres.component.html',
-    styleUrls: ['./genres.component.css'],
     providers: [ConfirmationService, MessageService]
 })
 export class GenresComponent implements OnInit, OnDestroy {

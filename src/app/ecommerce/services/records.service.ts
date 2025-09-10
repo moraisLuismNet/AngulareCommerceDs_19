@@ -33,20 +33,24 @@ export class RecordsService {
   }
 
   addRecord(record: IRecord): Observable<IRecord> {
-    const headers = this.getHeaders();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authGuard.getToken()}`,
+    });
     const formData = new FormData();
-    formData.append("titleRecord", record.titleRecord);
-    if (record.yearOfPublication !== null) {
-      formData.append("yearOfPublication", record.yearOfPublication.toString());
-    } else {
-      formData.append("yearOfPublication", "");
-    }
-    formData.append("photo", record.photo!);
-    formData.append("price", record.price.toString());
-    formData.append("stock", record.stock.toString());
-    formData.append("discontinued", record.discontinued ? "true" : "false");
-    formData.append("groupId", record.groupId?.toString()!);
 
+    // Ensure all field names match the server's expected case
+    formData.append("TitleRecord", record.titleRecord);
+    if (record.yearOfPublication !== null) {
+      formData.append("YearOfPublication", record.yearOfPublication.toString());
+    } else {
+      formData.append("YearOfPublication", "");
+    }
+    formData.append("Photo", record.photo!);
+    formData.append("Price", record.price.toString());
+    formData.append("Stock", record.stock.toString());
+    formData.append("Discontinued", record.discontinued ? "true" : "false");
+    formData.append("GroupId", record.groupId?.toString()!);
+    
     return this.http
       .post<any>(`${this.urlAPI}records`, formData, {
         headers,
@@ -70,7 +74,7 @@ export class RecordsService {
       Authorization: `Bearer ${this.authGuard.getToken()}`,
     });
     const formData = new FormData();
-    formData.append("titleRecord", record.titleRecord);
+    formData.append("TitleRecord", record.titleRecord);
     if (record.yearOfPublication !== null) {
       formData.append("yearOfPublication", record.yearOfPublication.toString());
     } else {

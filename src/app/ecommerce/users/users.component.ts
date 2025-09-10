@@ -32,7 +32,6 @@ import { IUser } from '../ecommerce.interface';
         DialogModule
     ],
     templateUrl: './users.component.html',
-    styleUrls: ['./users.component.css'],
     providers: [ConfirmationService, MessageService]
 })
 export class UsersComponent implements OnInit {

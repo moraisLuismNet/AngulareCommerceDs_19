@@ -8,15 +8,15 @@ import {
   inject,
   DestroyRef,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from "@angular/core";
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from "@angular/forms";
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 // PrimeNG
-import { ConfirmationService, MessageService } from "primeng/api";
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
@@ -27,53 +27,53 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
 
 // Services
-import { IRecord } from "../ecommerce.interface";
-import { RecordsService } from "../services/records.service";
-import { GroupsService } from "../services/groups.service";
-import { StockService } from "../services/stock.service";
-import { CartService } from "../services/cart.service";
-import { UserService } from "src/app/services/user.service";
+import { IRecord } from '../ecommerce.interface';
+import { RecordsService } from '../services/records.service';
+import { GroupsService } from '../services/groups.service';
+import { StockService } from '../services/stock.service';
+import { CartService } from '../services/cart.service';
+import { UserService } from 'src/app/services/user.service';
 import { MessageModule } from 'primeng/message';
 
 @Component({
-    selector: "app-records",
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        FormsModule,
-        RouterModule,
-        ButtonModule,
-        TableModule,
-        InputTextModule,
-        InputNumberModule,
-        DialogModule,
-        ConfirmDialogModule,
-        FileUploadModule,
-        TooltipModule,
-        MessageModule
-    ],
-    templateUrl: "./records.component.html",
-    styleUrls: ["./records.component.css"],
-    providers: [ConfirmationService, MessageService]
+  selector: 'app-records',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    ButtonModule,
+    TableModule,
+    InputTextModule,
+    InputNumberModule,
+    DialogModule,
+    ConfirmDialogModule,
+    FileUploadModule,
+    TooltipModule,
+    MessageModule,
+  ],
+  templateUrl: './records.component.html',
+  styleUrls: ['./records.component.css'],
+  providers: [ConfirmationService, MessageService],
 })
 export class RecordsComponent implements OnInit {
-  @ViewChild("form") form!: NgForm;
-  @ViewChild("fileInput") fileInput!: ElementRef;
-  @ViewChild("recordsTable") recordsTable!: ElementRef<HTMLTableElement>;
-  @ViewChild("searchInput") searchInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('form') form!: NgForm;
+  @ViewChild('fileInput') fileInput!: ElementRef;
+  @ViewChild('recordsTable') recordsTable!: ElementRef<HTMLTableElement>;
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
   visibleError = false;
-  errorMessage = "";
+  errorMessage = '';
   records: IRecord[] = [];
   filteredRecords: IRecord[] = [];
   visibleConfirm = false;
-  imageRecord = "";
+  imageRecord = '';
   visiblePhoto = false;
-  photo = "";
-  searchText: string = "";
+  photo = '';
+  searchText: string = '';
 
   record: IRecord = {
     idRecord: 0,
-    titleRecord: "",
+    titleRecord: '',
     yearOfPublication: null,
     imageRecord: null,
     photo: null,
@@ -81,9 +81,9 @@ export class RecordsComponent implements OnInit {
     price: 0,
     stock: 0,
     discontinued: false,
-    groupId: null,
-    groupName: "",
-    nameGroup: "",
+    groupId: null!,
+    groupName: '',
+    nameGroup: '',
   };
 
   // Flag to track if a file has been selected
@@ -94,7 +94,7 @@ export class RecordsComponent implements OnInit {
   private lastScrollPosition: number = 0;
   private resizeObserver!: ResizeObserver;
   private destroyRef = inject(DestroyRef);
-  
+
   // Services injected using inject()
   private recordsService = inject(RecordsService);
   private groupsService = inject(GroupsService);
@@ -108,7 +108,6 @@ export class RecordsComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
 
   constructor() {
-
     // This will run after every change detection cycle
     afterRender(() => {
       this.updateTableVisuals();
@@ -233,7 +232,7 @@ export class RecordsComponent implements OnInit {
             this.cdr.detectChanges();
           },
           error: (err: any) => {
-            console.error("Error getting groups:", err);
+            console.error('Error getting groups:', err);
             this.records = recordsArray;
             this.filteredRecords = [...this.records];
             this.cdr.detectChanges();
@@ -241,7 +240,7 @@ export class RecordsComponent implements OnInit {
         });
       },
       error: (err: any) => {
-        console.error("Error getting records:", err);
+        console.error('Error getting records:', err);
         this.visibleError = true;
         this.controlError(err);
         this.cdr.detectChanges();
@@ -285,14 +284,14 @@ export class RecordsComponent implements OnInit {
           // The response has data property
           groupsArray = response.data;
         } else {
-          console.warn("Unexpected API response structure:", response);
+          console.warn('Unexpected API response structure:', response);
         }
 
         this.groups = groupsArray;
         this.cdr.detectChanges();
       },
       error: (err: any) => {
-        console.error("Error loading groups:", err);
+        console.error('Error loading groups:', err);
         this.visibleError = true;
         this.controlError(err);
         this.cdr.detectChanges();
@@ -315,7 +314,7 @@ export class RecordsComponent implements OnInit {
   }
 
   onAceptar() {
-    this.fileInput.nativeElement.value = "";
+    this.fileInput.nativeElement.value = '';
   }
 
   showImage(record: IRecord) {
@@ -333,7 +332,7 @@ export class RecordsComponent implements OnInit {
       this.recordsService.addRecord(this.record).subscribe({
         next: (data) => {
           this.visibleError = false;
-          this.form.reset();
+          this.form.reset({ groupId: null });
           this.getRecords();
         },
         error: (err) => {
@@ -361,10 +360,10 @@ export class RecordsComponent implements OnInit {
   confirmDelete(record: IRecord) {
     this.confirmationService.confirm({
       message: `Delete record ${record.titleRecord}?`,
-      header: "Are you sure?",
-      icon: "pi pi-exclamation-triangle",
-      acceptLabel: "Yes",
-      acceptButtonStyleClass: "p-button-danger",
+      header: 'Are you sure?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Yes',
+      acceptButtonStyleClass: 'p-button-danger',
       accept: () => this.deleteRecord(record.idRecord),
     });
   }
@@ -390,7 +389,7 @@ export class RecordsComponent implements OnInit {
     }
     this.record.photoName = record.imageRecord
       ? this.extractImageName(record.imageRecord)
-      : "";
+      : '';
     // If there is an associated group, make sure the select reflects it
     if (record.groupId) {
       const selectedGroup = this.groups.find(
@@ -403,13 +402,13 @@ export class RecordsComponent implements OnInit {
   }
 
   extractImageName(url: string): string {
-    return url.split("/").pop() || "";
+    return url.split('/').pop() || '';
   }
 
   cancelEdition() {
     this.record = {
       idRecord: 0,
-      titleRecord: "",
+      titleRecord: '',
       yearOfPublication: null,
       imageRecord: null,
       photo: null,
@@ -417,19 +416,20 @@ export class RecordsComponent implements OnInit {
       price: 0,
       stock: 0,
       discontinued: false,
-      groupId: null,
-      groupName: "",
-      nameGroup: "",
+      groupId: null!,
+      groupName: '',
+      nameGroup: '',
     };
+    this.form.reset({ groupId: null });
   }
 
   controlError(err: any) {
-    if (err.error && typeof err.error === "object" && err.error.message) {
+    if (err.error && typeof err.error === 'object' && err.error.message) {
       this.errorMessage = err.error.message;
-    } else if (typeof err.error === "string") {
+    } else if (typeof err.error === 'string') {
       this.errorMessage = err.error;
     } else {
-      this.errorMessage = "An unexpected error has occurred";
+      this.errorMessage = 'An unexpected error has occurred';
     }
   }
 
@@ -445,7 +445,7 @@ export class RecordsComponent implements OnInit {
         this.filteredRecords = [...this.records];
       },
       (error) => {
-        console.error("Error adding to cart:", error);
+        console.error('Error adding to cart:', error);
         // Revert local changes if it fails
         record.inCart = false;
         record.amount = 0;
@@ -466,7 +466,7 @@ export class RecordsComponent implements OnInit {
         this.filteredRecords = [...this.records];
       },
       (error) => {
-        console.error("Error removing from cart:", error);
+        console.error('Error removing from cart:', error);
         // Revert local changes if it fails
         record.amount = (record.amount || 0) + 1;
         record.inCart = true;

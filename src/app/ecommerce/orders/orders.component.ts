@@ -29,7 +29,6 @@ import { IOrder } from '../ecommerce.interface';
         ProgressSpinnerModule
     ],
     templateUrl: './orders.component.html',
-    styleUrls: ['./orders.component.css'],
     providers: [MessageService]
 })
 export class OrdersComponent implements OnInit, OnDestroy {

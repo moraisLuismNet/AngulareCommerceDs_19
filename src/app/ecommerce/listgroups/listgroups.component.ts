@@ -44,7 +44,6 @@ import { GenresService } from '../services/genres.service';
         TableModule
     ],
     templateUrl: './listgroups.component.html',
-    styleUrls: ['./listgroups.component.css'],
     providers: [ConfirmationService, MessageService]
 })
 export class ListgroupsComponent implements OnInit {

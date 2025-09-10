@@ -55,7 +55,6 @@ import { AuthGuard } from "src/app/guards/auth-guard.service";
         InputNumberModule
     ],
     templateUrl: "./listrecords.component.html",
-    styleUrls: ["./listrecords.component.css"],
     providers: [ConfirmationService, MessageService]
 })
 export class ListrecordsComponent implements OnInit {

@@ -1,4 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef, afterNextRender, afterRender, OnDestroy, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  afterNextRender,
+  afterRender,
+  OnDestroy,
+  inject,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -22,25 +33,24 @@ import { GroupsService } from '../services/groups.service';
 import { GenresService } from '../services/genres.service';
 
 @Component({
-    selector: 'app-groups',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        FormsModule,
-        TableModule,
-        ButtonModule,
-        InputTextModule,
-        InputNumberModule,
-        DialogModule,
-        ConfirmDialogModule,
-        FileUploadModule,
-        TooltipModule,
-        MessageModule,
-        DropdownModule
-    ],
-    templateUrl: './groups.component.html',
-    styleUrls: ['./groups.component.css'],
-    providers: [ConfirmationService, MessageService]
+  selector: 'app-groups',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    FormsModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    InputNumberModule,
+    DialogModule,
+    ConfirmDialogModule,
+    FileUploadModule,
+    TooltipModule,
+    MessageModule,
+    DropdownModule,
+  ],
+  templateUrl: './groups.component.html',
+  providers: [ConfirmationService, MessageService],
 })
 export class GroupsComponent implements OnInit, OnDestroy {
   @ViewChild('form') form!: NgForm;
@@ -60,7 +70,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
     nameGroup: '',
     imageGroup: null,
     photo: null,
-    musicGenreId: 0,
+    musicGenreId: null!,
     musicGenreName: '',
     musicGenre: '',
   };
@@ -103,7 +113,6 @@ export class GroupsComponent implements OnInit, OnDestroy {
   getGroups() {
     this.groupsService.getGroups().subscribe({
       next: (data: any) => {
-
         // Directly assign the response array (without using .$values)
         this.groups = Array.isArray(data) ? data : [];
         this.filteredGroups = [...this.groups];
@@ -142,7 +151,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
   private initializeGroupsTable(): void {
     // Initialize table rows
     const groupRows = document.querySelectorAll('.group-row');
-    groupRows.forEach(row => {
+    groupRows.forEach((row) => {
       // Add hover effect
       row.addEventListener('mouseenter', () => {
         row.classList.add('hovered');
@@ -150,15 +159,19 @@ export class GroupsComponent implements OnInit, OnDestroy {
       row.addEventListener('mouseleave', () => {
         row.classList.remove('hovered');
       });
-      
+
       // Add row click handler
       row.addEventListener('click', (event) => {
         // Avoid selection when clicking buttons or links
-        if (!(event.target as HTMLElement).closest('button') && 
-            !(event.target as HTMLElement).closest('a')) {
+        if (
+          !(event.target as HTMLElement).closest('button') &&
+          !(event.target as HTMLElement).closest('a')
+        ) {
           const groupId = row.getAttribute('data-group-id');
           if (groupId) {
-            const group = this.groups.find(g => g.idGroup === Number(groupId));
+            const group = this.groups.find(
+              (g) => g.idGroup === Number(groupId)
+            );
             if (group) {
               this.showImage(group);
             }
@@ -170,24 +183,24 @@ export class GroupsComponent implements OnInit, OnDestroy {
 
   private setupTableResizeObserver(): void {
     if (!this.groupsTable) return;
-    
-    this.resizeObserver = new ResizeObserver(entries => {
-      entries.forEach(entry => {
+
+    this.resizeObserver = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
         console.log('The group table has been resized:', entry.contentRect);
         this.adjustTableColumns();
       });
     });
-    
+
     this.resizeObserver.observe(this.groupsTable.nativeElement);
   }
 
   private adjustTableColumns(): void {
     if (!this.groupsTable) return;
-    
+
     const table = this.groupsTable.nativeElement;
     const containerWidth = table.offsetWidth;
     const headers = table.querySelectorAll('th');
-    
+
     // Adjust column widths based on container width
     if (containerWidth < 768) {
       // Mobile view
@@ -201,7 +214,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
       });
     } else {
       // Desktop view
-      headers.forEach(header => {
+      headers.forEach((header) => {
         header.style.display = 'table-cell';
         header.style.width = ''; // Restore default width
       });
@@ -211,7 +224,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
   private updateTableVisuals(): void {
     // Update table styles based on state
     const groupRows = document.querySelectorAll('.group-row');
-    
+
     groupRows.forEach((row, index) => {
       // Alternate row styles
       if (index % 2 === 0) {
@@ -221,7 +234,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
         row.classList.add('odd');
         row.classList.remove('even');
       }
-      
+
       // Highlight groups without image
       const imageCell = row.querySelector('.group-image');
       if (imageCell && !imageCell.innerHTML.trim()) {
@@ -231,13 +244,13 @@ export class GroupsComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
   private restoreScrollPosition(): void {
     if (this.lastScrollPosition > 0 && this.groupsTable) {
       this.groupsTable.nativeElement.scrollTop = this.lastScrollPosition;
     }
   }
-  
+
   private focusSearchInput(): void {
     if (this.searchInput) {
       this.searchInput.nativeElement.focus();
@@ -253,7 +266,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
       this.groupsService.addGroup(this.group).subscribe({
         next: (data) => {
           this.visibleError = false;
-          this.form.reset();
+          this.form.reset({ musicGenreId: null });
           this.getGroups();
         },
         error: (err) => {
@@ -295,10 +308,11 @@ export class GroupsComponent implements OnInit, OnDestroy {
       nameGroup: '',
       imageGroup: null,
       photo: null,
-      musicGenreId: 0,
+      musicGenreId: null!,
       musicGenreName: '',
       musicGenre: '',
     };
+    this.form.reset({ musicGenreId: null });
   }
 
   confirmDelete(group: IGroup) {
@@ -361,12 +375,12 @@ export class GroupsComponent implements OnInit, OnDestroy {
     if (this.groupsTable) {
       this.lastScrollPosition = this.groupsTable.nativeElement.scrollTop;
     }
-    
+
     // Clear the resize observer
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
-    
+
     this.destroy$.next();
     this.destroy$.complete();
   }

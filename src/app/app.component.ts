@@ -14,8 +14,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
         RouterModule,
         NavbarComponent
     ],
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'AngulareCommerceDs';

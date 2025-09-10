@@ -20,7 +20,6 @@ import { TooltipModule } from 'primeng/tooltip';
         TooltipModule
     ],
     templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent implements OnInit {
